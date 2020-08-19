@@ -16,7 +16,7 @@ rm -r /tmp/$(whoami)/balsam-install
 ```
 
 Once it completes (it builds mpi4py, it takes a few minutes), you can activate the environment with:
-```
+```bash
 source /path/to/balsam-serial-tests-venv/bin/activate
 ```
 
@@ -31,3 +31,17 @@ The balsam database is created and initialized like this:
 ```bash
 balsam init /path/to/balsam-serial-tests-db/
 ```
+
+Once initialized, activate the database with:
+```bash
+source balsamactivate /path/to/balsam-serial-tests-db/
+```
+
+## Initializing applications
+
+This repo contains several applications:
+- Python-based array addition
+- Singularity based C++ simulation code
+- An empty bash script that sleeps for 60 seconds
+
+You can initialize all of them in your database, once activated, with the script in applications/initialize_apps.sh
