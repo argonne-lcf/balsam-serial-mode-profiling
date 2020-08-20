@@ -1,6 +1,27 @@
 # balsam-serial-mode-profiling
 Contains application tools and scripts for measuring balsam performance in serial mode.
 
+# Timing Definitions
+
+For each Job, we will measure the following timestamps:
+
+| Timestamp | Description |
+| --------- | ----------- |
+| `t_0`     | *Balsam worker start:* the launcher log timestamp immediately before worker Popens the job |
+| `t_1`     | *RUNNING database time:* when job recorded as `RUNNING` in database |
+| `t_2`     | *Application start:* timestamp emitted by application upon startup |
+| `t_3`     | *Application end:* timestamp emitted by application at the end |
+| `t_4`     | *Balsam worker end:* the launcher log timestamp immediately after Popen polls return 0 |
+| `t_5`     | *RUN_DONE database time* the timestamp when `RUN_DONE` is recorded in database |
+| `t_err`     | *Balsam worker error* launcher log timestamp when nonzero return code is polled |
+
+`t3 - t2` is the *inner app runtime*: how long the app takes to run measured purely by the application itself.
+This time delta is important in case applications are running intrinsically slower at scale.
+
+`t2 - t0` is the *Popen start delay*: All the time between `t0` and `t2` is spent in Popen; a large delay here
+indicates that subprocess `fork()` and `exec()` is taking a long time.
+
+`t4 - t3` is the *Popen end delay*: A large delay here indicates excessive lag time between the application end and when a return code is propagated back to the Popen object.
 
 # First Steps
 
