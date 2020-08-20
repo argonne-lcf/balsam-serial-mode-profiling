@@ -34,6 +34,8 @@ cd balsam
 git checkout serial-mode-perf
 pip install .
 
+pip install python-dateutil
+
 echo "Balsam install done."
 echo "Use 'module load postgresql' to set up Postgres"
 echo "If in doubt, delete ~/.balsam/settings.json to refresh Balsam settings"
