@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
 import sys, os
+
+
 import glob
 import balsam.launcher.dag as dag
 from pathlib import Path
 from datetime import datetime
 from dateutil.parser import parse
 
+
 current_job = dag.current_job
 
 # Find the file:
-log_file = glob.glob("*.out")[0]
 
 t2_key = "Start Time: "
 t3_key = "End Time: "
