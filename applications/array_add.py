@@ -1,6 +1,7 @@
 import sys
 import numpy
 import time
+import datetime
 start = datetime.datetime.today().strftime("%d-%b-%Y %H:%M:%S")
 print("Start Time:", start)
 if len(sys.argv) > 1:
@@ -15,5 +16,4 @@ for n in range(n_loops):
     b = numpy.random.uniform(low=-1.0, high=1.0,size=(matrix_size, matrix_size))
     x = numpy.matmul(a,b)
 print("End Time: ", datetime.datetime.today().strftime("%d-%b-%Y %H:%M:%S"))
-print("Time: ")
-print(time.time() - start)
+

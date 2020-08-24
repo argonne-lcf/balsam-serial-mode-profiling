@@ -1,14 +1,15 @@
 from balsam.core.models import BalsamJob
 from collections import Counter
 import numpy as np
+import argparse
 from dateutil.parser import isoparse
 from math import floor
 
-def fetch_by_workflow(workflow):
+def fetch_by_workflow(workflow, **filter_args):
     """
     Get times_list for a particular workflow string
     """
-    jobs = BalsamJob.objects.filter(workflow=workflow)
+    jobs = BalsamJob.objects.filter(workflow=workflow, **filter_args)
     times_list = list(jobs.values_list("data", flat=True))
     for d in times_list:
         for key in d:
@@ -83,3 +84,24 @@ def plot_end_delays(workflow):
     T2, Tdelay = zip(*get_end_delays(time_dat))
     from matplotlib import pyplot as plt
     plt.scatter(T2, Tdelay)
+
+
+
+def main():
+
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-wf", "--workflow", type=str, help="Workflow to use", required=True)
+    parser.add_argument("-t", "--task", type=str, choices=["plot", "averages"], required=True, help="Task to perform")
+
+    args = parser.parse_args()
+
+    print(args)
+
+    if args.task == "averages":
+        times = fetch_by_workflow(args.workflow, state="JOB_FINISHED")
+        print(times)
+
+
+if __name__ == "__main__":
+    main()
