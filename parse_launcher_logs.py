@@ -18,15 +18,18 @@ if not logfile.is_file():
     raise ValueError(f"{sys.argv[1]} is not a file")
 
 workflow = sys.argv[2]
-jobs = BalsamJob.objects.filter(workflow=workflow, state="JOB_FINISHED")
+jobs = BalsamJob.objects.filter(workflow=workflow)
 if not jobs.exists():
     raise ValueError(f"No jobs matching workflow {workflow}")
 
 
-jobs_dict = {(job.job_id[:8], job.name): job for job in jobs}
+
+jobs_dict = {(job.job_id.hex[:8], job.name): job for job in jobs}
+
+
 
 with open(logfile) as fp:
-    for line in logfile:
+    for line in fp:
         if 'WORKER_START' in line:
             t, name, id = parse_line(line)
             jobs_dict[(id, name)].data["t0"] = t.isoformat()
@@ -36,7 +39,6 @@ with open(logfile) as fp:
         elif 'WORKER_ERROR' in line:
             t, name, id = parse_line(line)
             jobs_dict[(id, name)].data["t_err"] = t.isoformat()
-
 
 with transaction.atomic():
     for job in jobs_dict.values():
