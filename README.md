@@ -65,4 +65,21 @@ This repo contains several applications:
 - Singularity based C++ simulation code
 - An empty bash script that sleeps for 60 seconds
 
-You can initialize all of them in your database, once activated, with the script in applications/initialize_apps.sh
+You can initialize all of them in your database, once activated, with the script in `applications/initialize_apps.sh`
+
+## Initializing workloads
+
+We plan to scan over workloads as a function of node packing count and job size (n_nodes).  To facilitate sorting these and loading jobs into the DB, several scripts are provided for creating these workflows and their jobs:
+
+```bash
+# Add the empty app with 4 nodes, 16 ranks per node:
+python workflows/add_workflow_empty_app.py -n 4 -npc 16
+
+# Add the array_add app with 32 nodes, 32 ranks per node:
+python workflows/add_workflow_array_add.py -n 32 -npc 32
+
+# Add the cosmics_gen_stage app with 256 nodes, 1 rank per node:
+python workflows/add_workflow_cosmics_gen_stage.py -n 256 --node-packing-count 1
+```
+
+Each of these apps will produce at the end the correct submit-launch command with balsam, though you may want/need to change the allocation.
