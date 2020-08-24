@@ -28,20 +28,20 @@ print(args)
 n_jobs = int(100*n_nodes*node_pack_count)
 
 # This is the workflow name
-workflow = f"empty_app_{n_nodes}_node_core_{node_pack_count}"
+workflow = f"array_add_{n_nodes}_node_core_{node_pack_count}"
 
 # loop over files, index used for run number in events so must count from 1
 for i_job in range(n_jobs):
    
       empty_job = dag.add_job(
-         name = f"empty_app_{i_job}_{n_nodes}_{node_pack_count}",                # This will be the name of the job in the database
+         name = f"array_add_{i_job}_{n_nodes}_{node_pack_count}",                # This will be the name of the job in the database
          workflow = workflow, 
          description = "empty application for serial testing",  # A description of what this job is
          num_nodes = 1,                                     # Number of nodes each job needs
          ranks_per_node = 1,                                # The number of ranks per node
          node_packing_count = node_pack_count,              # This is set to 64
          wall_time_minutes = 2,                             # Wall time of job
-         application= "empty_app"         # The name of the application
+         application= "array_add"         # The name of the application
         )
 
 print(f"Loaded {n_jobs} into the database under workflow {workflow}")

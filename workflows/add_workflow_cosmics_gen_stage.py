@@ -60,3 +60,8 @@ for ifile in range(1, n_files + 1):
         )
 
 print("Total number of events to be generated: ", tot_events)
+
+print(f"Loaded {n_jobs} into the database under workflow {workflow}")
+print("To launch these jobs, run:")
+print(f"balsam submit-launch -n {n_nodes} -t 30 --job-mode serial --wf-filter {workflow} -A datascience -q default")
+
